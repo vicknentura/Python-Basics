@@ -1,0 +1,32 @@
+from scipy import stats
+
+# Calculate skewness and determine parametric/non-parametric
+
+results_df = pd.DataFrame(columns=['Column', 'Skewness', 'Interpretation', 'Parametric Determination'])
+
+def calculate_skewness_and_determine_parametric(data, column):
+    if data[column].dtype.kind in 'bifc':  # Check if column is numeric
+        skew = stats.skew(data[column])
+        if skew == 0:
+            interpretation = "The data is symmetrical (like a normal distribution)."
+            parametric_determination = "Parametric"
+        elif skew > 0:
+            interpretation = "The data has a positive skew or right-tailed."
+            parametric_determination = "Non-Parametric"
+        else:
+            interpretation = "The data has a negative skew or left-tailed."
+            parametric_determination = "Non-Parametric"
+
+        # Append results to DataFrame
+        results_df.loc[len(results_df)] = [column, skew, interpretation, parametric_determination]
+
+    else:
+        print(f"Column: {column} is not numeric, skipping...")
+        print()
+
+# Apply the function to the hour and month columns
+calculate_skewness_and_determine_parametric(taxi_data_resampled.reset_index(), 'hour')
+calculate_skewness_and_determine_parametric(taxi_data_resampled.reset_index(), 'month')
+
+print("Skewness and Parametric Determination Summary:")
+display(results_df)
