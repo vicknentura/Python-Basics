@@ -1,0 +1,65 @@
+# Processing Grouped Data with agg()
+
+import pandas as pd
+
+df = pd.read_csv('/datasets/vg_sales.csv')
+df['total_sales'] = df['na_sales'] + df['eu_sales'] + df['jp_sales']
+
+grp = df.groupby('genre')
+
+# Improved code
+agg_dict = {
+    'total_sales': 'sum',
+    'na_sales': 'mean',
+    'eu_sales': 'mean',
+    'jp_sales': 'mean'
+}
+
+genre = grp.agg(agg_dict)
+print(genre)'
+
+
+# Pivot Tables
+import pandas as pd
+
+df = pd.read_csv('/datasets/vg_sales.csv')
+df = df[df['year_of_release'] >= 2000]
+
+df['user_score'] = pd.to_numeric(df['user_score'], errors='coerce')
+
+# Improved code
+df_pivot = df.pivot_table(index='genre', columns='year_of_release', values='user_score', aggfunc='mean')
+print(df_pivot)
+
+
+# Combining DataFrames with concat()
+import pandas as pd
+
+df = pd.read_csv('/datasets/vg_sales.csv')
+df['total_sales'] = df['na_sales'] + df['eu_sales'] + df['jp_sales']
+
+total_sales = df.groupby('platform')['total_sales'].sum()
+num_pubs = df.groupby('platform')['publisher'].nunique()
+
+# Improved code
+platforms = pd.concat([total_sales, num_pubs], axis=1)
+platforms.columns = ['total_sales', 'num_publishers']
+print(platforms)
+
+
+# Combining DataFrames with merge()
+import pandas as pd
+
+df_members = pd.read_csv('/datasets/new_members.csv')
+df_orders  = pd.read_csv('/datasets/recent_orders.csv')
+
+df_merged = df_members.merge(df_orders,
+                             left_on='id',
+                             right_on='user_id',
+                             suffixes=['_member', '_order'])
+
+# Drop the duplicate 'user_id' column
+df_merged = df_merged.drop('user_id', axis='columns')
+
+# Print the cleaned up DataFrame
+print(df_merged)
