@@ -1,0 +1,55 @@
+# Classes
+class Car:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+
+    def start(self):
+        print(f"{self.make} {self.model} started.")
+
+    def stop(self):
+        print(f"{self.make} {self.model} stopped.")
+
+
+# Instances
+my_car = Car("Toyota", "Camry", 2023)
+your_car = Car("Honda", "Civic", 2022)
+
+
+# Atttributes
+my_car.make
+my_car.model
+my_car.year
+
+
+# Methods
+my_car.start()
+my_car.stop()
+
+
+# Static Methods
+class Car:
+    @staticmethod
+    def get_current_year():
+        return datetime.datetime.now().year
+
+
+# Class Methods
+class Car:
+    num_cars = 0
+
+    @classmethod
+    def create_car(cls, make, model, year):
+        cls.num_cars += 1
+        return cls(make, model, year)
+
+
+# Inheritance
+class ElectricCar(Car):
+    def __init__(self, make, model, year, battery_range):
+        super().__init__(make, model, year)
+        self.battery_range = battery_range
+
+    def charge(self):
+        print(f"{self.make} {self.model} is charging.")
