@@ -1,0 +1,25 @@
+# Frequency Histograms for Continuous Variables
+
+import pandas as pd
+
+# we'll call the dataset `pur_time` (purchase time)
+pur_time = pd.Series([36, 44, 73, 32, 44, 29, 63, 60, 55, 74, 61, 26, 76, 40, 39, 28, 69, 61, 54, 58, 47, 41, 70, 51, 58, 36, 71, 47, 74, 59, 50, 78, 59, 48, 67, 53, 67, 52, 38, 55, 53, 53, 43, 77, 44, 63, 63, 54])
+
+pur_time.hist(
+    bins=[15, 35, 55, 75, 90], alpha=0.5
+)  # builds a histogram with 5 bins, the boundaries for which are listed, where the alpha argument gives us an opaque graph
+
+pur_time.hist(
+    bins=[15, 45, 55, 90], alpha=0.5
+)
+
+
+# Standard Deviation
+quiz_mean = 6000 / 100 * 3
+quiz_std = 6000 / 100 * 0.4
+
+quiz_bottom_line = quiz_mean - 3 * quiz_std
+quiz_top_line = quiz_mean + 3 * quiz_std
+
+print('Interval:', quiz_bottom_line, '-', quiz_top_line)
+
